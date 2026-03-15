@@ -1,0 +1,628 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2025-03",
+  "disclaimer": "주차 정책은 지점별로 상이할 수 있으며, 변경될 수 있어요. 방문 전 해당 매장/시설에 확인하세요.",
+  "categories": [
+    {
+      "id": "mart",
+      "name": "마트",
+      "icon": "cart",
+      "items": [
+        {
+          "id": "emart",
+          "name": "이마트",
+          "logo": "emart",
+          "summary": "구매 금액별 최대 5시간 무료",
+          "freeCondition": "구매 영수증 + 신세계포인트 적립 시 자동정산",
+          "details": {
+            "baseFee": "10분당 1,000원 (점포별 상이)",
+            "gracePeriod": "30분 이내 회차 무료",
+            "tiers": [
+              { "amount": 10000, "amountLabel": "1만원 이상", "freeHours": 1 },
+              { "amount": 30000, "amountLabel": "3만원 이상", "freeHours": 2 },
+              { "amount": 50000, "amountLabel": "5만원 이상", "freeHours": 3 },
+              { "amount": 100000, "amountLabel": "10만원 이상", "freeHours": 4 },
+              { "amount": 200000, "amountLabel": "20만원 이상", "freeHours": 5 }
+            ],
+            "maxFreeHours": 5,
+            "memberBenefit": "이마트 앱 차량 등록 시 매월 2시간 무료 주차권 제공",
+            "autoSettlement": true,
+            "autoSettlementCondition": "이마트 앱에 차량번호 등록 + 결제 시 신세계포인트 적립"
+          },
+          "notes": [
+            "점포별 주차 요금 체계가 상이할 수 있어요",
+            "이천점, 경기광주점, 신월점 등은 별도 기준이 적용돼요",
+            "일부 점포는 무료 주차가 전면 적용되기도 해요",
+            "주차비 자동정산은 일부 점포에서만 가능해요"
+          ],
+          "tip": "이마트 앱에 차량번호를 등록하면 주차비 자동정산이 되고, 매월 2시간 무료 주차권도 받을 수 있어요!"
+        },
+        {
+          "id": "costco",
+          "name": "코스트코",
+          "logo": "costco",
+          "summary": "대부분 점포 무료, 일부 점포 3시간 무료",
+          "freeCondition": "회원 매장 이용 시 (점포별 상이)",
+          "details": {
+            "baseFee": "점포별 상이 (무료~유료)",
+            "gracePeriod": "해당 없음",
+            "branches": [
+              { "name": "양재점", "condition": "3시간 무료, 초과 시 시간당 10,000원 (유료 전환)", "note": "유료화 적용" },
+              { "name": "광명점", "condition": "3시간 무료, 초과 시 시간당 10,000원 (유료 전환)", "note": "유료화 적용" },
+              { "name": "고척점", "condition": "구매 고객 무료 (시간 제한 확인 필요)", "note": "점포 문의 권장" },
+              { "name": "일산점", "condition": "무료", "note": "" },
+              { "name": "하남점", "condition": "무료", "note": "" },
+              { "name": "대전점", "condition": "무료", "note": "" },
+              { "name": "세종점", "condition": "무료", "note": "" },
+              { "name": "공세점", "condition": "무료", "note": "" },
+              { "name": "송도점", "condition": "무료", "note": "" },
+              { "name": "대구혁신점", "condition": "무료", "note": "" },
+              { "name": "부산점", "condition": "무료", "note": "" },
+              { "name": "울산점", "condition": "무료", "note": "" },
+              { "name": "평택 고덕점", "condition": "무료", "note": "2025 신규 오픈" }
+            ],
+            "maxFreeHours": null,
+            "memberBenefit": "코스트코 회원만 매장 이용 가능",
+            "autoSettlement": false
+          },
+          "notes": [
+            "코스트코 회원만 매장 입장 및 주차 가능해요",
+            "양재점, 광명점은 유료 전환되어 3시간 이후 추가 요금이 발생해요",
+            "대부분의 교외 점포는 무료 주차가 가능해요",
+            "주말/명절에는 주차장이 매우 혼잡해요"
+          ],
+          "tip": "교외에 있는 코스트코 점포는 대부분 무료 주차예요. 양재점, 광명점은 3시간 안에 쇼핑을 마치세요!"
+        },
+        {
+          "id": "homeplus",
+          "name": "홈플러스",
+          "logo": "homeplus",
+          "summary": "기본 30분 무료, 구매 시 최대 5시간 무료",
+          "freeCondition": "구매 영수증 기준 자동정산",
+          "details": {
+            "baseFee": "기본 30분 무료, 이후 10분당 1,000원",
+            "gracePeriod": "30분 무료",
+            "tiers": [
+              { "amount": 10000, "amountLabel": "1만원 이상", "freeHours": 1 },
+              { "amount": 30000, "amountLabel": "3만원 이상", "freeHours": 3 },
+              { "amount": 50000, "amountLabel": "5만원 이상", "freeHours": 5 }
+            ],
+            "maxFreeHours": 5,
+            "dailyMaxFee": 20000,
+            "memberBenefit": "VIP 등급 회원은 무료 주차 가능",
+            "autoSettlement": true,
+            "autoSettlementCondition": "i-parking 사전정산 시스템 적용 (전 점포)"
+          },
+          "notes": [
+            "전 매장 i-parking 사전정산 시스템으로 변경되었어요",
+            "1일 최대 주차 요금은 20,000원이에요",
+            "월 정기주차(외부차량)는 90,000원이에요",
+            "점포별 주차 조건이 다를 수 있어요"
+          ],
+          "tip": "홈플러스 VIP 등급이면 무료 주차를 받을 수 있어요. 3만원 이상 구매하면 3시간 무료이니 식료품 장보기에 딱이에요!"
+        },
+        {
+          "id": "lottemart",
+          "name": "롯데마트",
+          "logo": "lottemart",
+          "summary": "기본 1시간 무료, 구매 시 최대 3시간 무료",
+          "freeCondition": "기본 1시간 무료 + 구매 금액별 추가 무료",
+          "details": {
+            "baseFee": "최초 1시간 무료, 이후 10분당 1,000원",
+            "gracePeriod": "1시간 무료 (기본)",
+            "tiers": [
+              { "amount": 0, "amountLabel": "구매 없이", "freeHours": 1 },
+              { "amount": 50000, "amountLabel": "5만원 이상", "freeHours": 1, "note": "기본 1시간 + 추가 1시간" },
+              { "amount": 100000, "amountLabel": "10만원 이상", "freeHours": 2, "note": "기본 1시간 + 추가 2시간" },
+              { "amount": 150000, "amountLabel": "15만원 이상", "freeHours": 3, "note": "기본 1시간 + 추가 3시간 (최대)" }
+            ],
+            "maxFreeHours": 3,
+            "memberBenefit": "롯데마트 앱 사전정산 가능",
+            "autoSettlement": true
+          },
+          "notes": [
+            "기본 1시간은 구매 없이도 무료예요",
+            "점포마다 무료 주차 기준이 상이할 수 있어요",
+            "구매 금액별 최대 무료 시간은 3시간이에요",
+            "롯데백화점과 동일 건물인 경우 주차 혜택이 합산될 수 있어요"
+          ],
+          "tip": "롯데마트는 구매 없이도 기본 1시간 무료예요! 간단한 장보기에는 충분한 시간이에요."
+        },
+        {
+          "id": "traders",
+          "name": "트레이더스 홀세일",
+          "logo": "traders",
+          "summary": "구매 금액별 최대 5시간 무료",
+          "freeCondition": "구매 영수증 + 신세계포인트 적립 시 자동정산",
+          "details": {
+            "baseFee": "10분당 1,000원 (점포별 상이)",
+            "gracePeriod": "20분 이내 회차 무료",
+            "tiers": [
+              { "amount": 20000, "amountLabel": "2만원 이상", "freeHours": 1 },
+              { "amount": 30000, "amountLabel": "3만원 이상", "freeHours": 2 },
+              { "amount": 50000, "amountLabel": "5만원 이상", "freeHours": 3 },
+              { "amount": 100000, "amountLabel": "10만원 이상", "freeHours": 5 }
+            ],
+            "maxFreeHours": 5,
+            "memberBenefit": "이마트 앱 차량 등록 시 자동정산 가능",
+            "autoSettlement": true,
+            "autoSettlementCondition": "이마트 앱에 차량번호 등록 + 결제 시 신세계포인트 적립"
+          },
+          "notes": [
+            "이마트 계열이라 이마트 앱으로 주차 관리 가능해요",
+            "점포별 주차 요금 체계가 상이할 수 있어요",
+            "이천점, 경기광주점, 신월점 등은 별도 기준이에요"
+          ],
+          "tip": "트레이더스는 보통 대량 구매를 하니 5만원 이상 구매로 3시간 무료를 쉽게 확보할 수 있어요!"
+        }
+      ]
+    },
+    {
+      "id": "department",
+      "name": "백화점",
+      "icon": "building",
+      "items": [
+        {
+          "id": "lotte-dept",
+          "name": "롯데백화점",
+          "logo": "lotte_dept",
+          "summary": "구매 금액별 최대 3시간 무료 + 앱 쿠폰",
+          "freeCondition": "구매 영수증 제시 또는 앱 무료 주차권 사용",
+          "details": {
+            "baseFee": "점포별 상이 (10분당 1,000원 내외)",
+            "gracePeriod": "해당 없음",
+            "tiers": [
+              { "amount": 50000, "amountLabel": "5만원 이상", "freeHours": 1 },
+              { "amount": 100000, "amountLabel": "10만원 이상", "freeHours": 2 },
+              { "amount": 200000, "amountLabel": "20만원 이상", "freeHours": 3 }
+            ],
+            "maxFreeHours": 3,
+            "memberBenefit": "롯데백화점 앱에서 매월 2시간 무료 주차권 2장 자동 지급",
+            "vipBenefit": "ORANGE 등급 이상 3시간 무료, 1,500만원 이상 선정 시 무료 주차권 1매 (전점 일 3시간)",
+            "autoSettlement": true
+          },
+          "notes": [
+            "점포별 주차 이용 가능 시간이 상이해요",
+            "VIP 등급(ORANGE 이상)은 3시간 무료예요",
+            "롯데마트와 동일 건물 시 주차 혜택 합산 가능해요",
+            "연간 1,500만원 이상 구매 시 무료 주차권 추가 제공돼요"
+          ],
+          "tip": "롯데백화점 앱을 설치하면 매월 2시간 무료 주차권 2장을 받을 수 있어요. 전 지점에서 사용 가능해요!"
+        },
+        {
+          "id": "hyundai-dept",
+          "name": "현대백화점",
+          "logo": "hyundai_dept",
+          "summary": "구매 금액별 최대 5시간 무료 (점포별 상이)",
+          "freeCondition": "구매 영수증 제시 또는 현대백화점카드 결제",
+          "details": {
+            "baseFee": "점포별 상이",
+            "gracePeriod": "해당 없음",
+            "tiers": [
+              { "amount": 50000, "amountLabel": "5만원 이상", "freeHours": 1, "note": "무역센터점/판교점 기준" },
+              { "amount": 100000, "amountLabel": "10만원 이상", "freeHours": 2 },
+              { "amount": 150000, "amountLabel": "15만원 이상", "freeHours": 3 },
+              { "amount": 200000, "amountLabel": "20만원 이상", "freeHours": 5, "note": "판교점 기준" }
+            ],
+            "maxFreeHours": 5,
+            "memberBenefit": "현대백화점카드 결제 실적 있으면 월 2회 2시간 무료 주차권",
+            "vipBenefit": "세이지(Sage) 고객: 전점 3시간 무료, 그린(Green) 고객: 선택 1개점 3시간 무료",
+            "autoSettlement": true,
+            "autoSettlementCondition": "현대백화점 앱에 차량 등록 필요"
+          },
+          "notes": [
+            "2024년 9월부터 앱 회원 자동 무료주차권 폐지, 현대백화점카드 결제 실적 필요",
+            "점포별(무역센터점, 중동점, 판교점 등) 무료 주차 기준이 상이해요",
+            "중동점은 1만원 이상 1시간, 30만원 이상 당일 무료 등 기준이 달라요",
+            "VIP 혜택은 2026년 2월 1일부터 변경 적용돼요"
+          ],
+          "tip": "현대백화점카드가 있으면 월 2회 2시간 무료 주차를 받을 수 있어요. 식품관에서 간단히 결제해도 실적으로 인정돼요!"
+        },
+        {
+          "id": "shinsegae-dept",
+          "name": "신세계백화점",
+          "logo": "shinsegae_dept",
+          "summary": "구매 금액별 최대 3시간 무료 + 앱 쿠폰",
+          "freeCondition": "당일 구매 영수증 제시 (전자영수증 가능)",
+          "details": {
+            "baseFee": "점포별 상이",
+            "gracePeriod": "해당 없음",
+            "tiers": [
+              { "amount": 50000, "amountLabel": "5만원 이상", "freeHours": 1 },
+              { "amount": 100000, "amountLabel": "10만원 이상", "freeHours": 2 },
+              { "amount": 150000, "amountLabel": "15만원 이상", "freeHours": 3 }
+            ],
+            "maxFreeHours": 3,
+            "memberBenefit": "앱 푸시 수신 고객 무료 주차권 2장, 신세계 삼성카드 보유 시 월 최대 6장 (2시간권)",
+            "vipBenefit": "VIP 클럽 등급별 추가 무료 주차 혜택",
+            "autoSettlement": true
+          },
+          "notes": [
+            "당일 구매 영수증만 인정돼요 (전자영수증 가능)",
+            "다른 무료주차권 또는 구매 영수증과 합산 불가예요",
+            "토/일/공휴일 오후 12시 이후 영수증 제시 시 3시간 무료 (일부 점포)",
+            "신세계 삼성카드 보유 시 월 최대 6장 무료 주차권 받을 수 있어요"
+          ],
+          "tip": "신세계백화점 앱 푸시 알림을 켜두면 무료 주차권 2장을 받을 수 있어요. 신세계 삼성카드가 있으면 최대 6장까지!"
+        }
+      ]
+    },
+    {
+      "id": "public",
+      "name": "공공시설",
+      "icon": "landmark",
+      "items": [
+        {
+          "id": "community-center",
+          "name": "주민센터/구청",
+          "logo": "government",
+          "summary": "평일 18시 이후, 주말/공휴일 무료 (지역별 상이)",
+          "freeCondition": "운영시간 외 또는 방문 민원 처리 시",
+          "details": {
+            "baseFee": "지역별 상이 (5분당 250원 내외)",
+            "gracePeriod": "방문 민원 처리 시 무료 (지역별 상이)",
+            "freeTimeRules": [
+              { "period": "평일 18시~익일 9시", "condition": "무료 개방" },
+              { "period": "주말/공휴일 종일", "condition": "무료 개방 (지역별 상이)" },
+              { "period": "평일 업무시간", "condition": "민원 처리 시 30분~1시간 무료 (지역별 상이)" }
+            ],
+            "examples": [
+              { "name": "도봉구청", "condition": "최초 60분 무료, 이후 5분당 250원" },
+              { "name": "강동구청", "condition": "18시~9시 무료, 주말/공휴일 4시간 무료" },
+              { "name": "수정구청", "condition": "최초 1시간 무료, 20시~7시 무료" }
+            ]
+          },
+          "notes": [
+            "지역(구/시)별로 주차 정책이 매우 다양해요",
+            "평일 업무시간에는 민원 처리 방문 시에만 무료인 경우가 많아요",
+            "야간/주말에는 주민 편의를 위해 무료 개방하는 곳이 많아요",
+            "주차 면수가 적은 곳이 많으니 사전 확인 필요해요"
+          ],
+          "tip": "주민센터/구청은 저녁 6시 이후와 주말에 무료 개방하는 곳이 많아요. 주변에 용무가 있다면 활용해 보세요!"
+        },
+        {
+          "id": "public-library",
+          "name": "공공도서관",
+          "logo": "library",
+          "summary": "도서관 이용 시 30분~2시간 무료 (지역별 상이)",
+          "freeCondition": "도서관 이용자 (대출증/이용증 제시)",
+          "details": {
+            "baseFee": "지역별 상이",
+            "gracePeriod": "30분~1시간 무료 (도서관별 상이)",
+            "examples": [
+              { "name": "서울교육청 통합도서관", "condition": "최초 1시간 무료 (1일 1회)" },
+              { "name": "용산꿈나무도서관", "condition": "최초 30분 무료" },
+              { "name": "부산도서관", "condition": "최초 30분 무료 (2025년 10월~ 변경)" },
+              { "name": "광교푸른숲도서관 (수원)", "condition": "최초 60분 무료" },
+              { "name": "국회도서관", "condition": "2시간 무료" }
+            ],
+            "discounts": [
+              { "target": "장애인/국가유공자", "discount": "80% 할인" },
+              { "target": "경차/저공해 차량", "discount": "50% 할인" }
+            ]
+          },
+          "notes": [
+            "도서관마다 무료 주차 시간이 다르므로 사전 확인 필요해요",
+            "대출증 또는 이용증을 제시해야 하는 경우가 많아요",
+            "장애인, 국가유공자, 경차 등은 추가 할인이 적용돼요",
+            "주차 면수가 적은 도서관이 많으니 대중교통 이용을 권장해요"
+          ],
+          "tip": "도서관에서 책을 빌리거나 열람실을 이용하면 무료 주차 혜택을 받을 수 있어요. 국회도서관은 무려 2시간 무료!"
+        },
+        {
+          "id": "national-museum",
+          "name": "국립중앙박물관",
+          "logo": "museum",
+          "summary": "유료 (기본 30분 900원), 20분 이내 출차 무료",
+          "freeCondition": "20분 이내 출차 시 무료, 특정 대상자 면제",
+          "details": {
+            "baseFee": "기본 30분 900원",
+            "additionalFee": "10분당 300원",
+            "dailyMaxFee": 18000,
+            "gracePeriod": "20분 이내 출차 시 무료",
+            "freeTargets": [
+              "공무내방자 (면제차량 등록 또는 공무방문 증명서 제시)",
+              "유물기증자 (기증자카드 제시)",
+              "박물관회 기부회원 (면제등록차량 및 회원카드 제시)",
+              "박물관 자원봉사자 (증명서 제시)",
+              "극장 '용' 공연 관람객 (관람권 제시 시 기본요금 적용)"
+            ],
+            "discounts": [
+              { "target": "경차", "discount": "50% 감면" },
+              { "target": "전기/하이브리드/수소차", "discount": "50% 감면" },
+              { "target": "다자녀 가족", "discount": "할인 적용" },
+              { "target": "임산부", "discount": "할인 적용" },
+              { "target": "국가유공자/장애인", "discount": "할인 또는 면제" }
+            ]
+          },
+          "notes": [
+            "2025년 9월 30일부터 요금이 인상되었어요 (기존 대비 약 80% 인상)",
+            "상설전시관은 무료 관람이지만 주차는 유료예요",
+            "요금 정산 후 20분 이내 미출차 시 추가 요금이 부과돼요",
+            "경차, 전기차 등 친환경 차량은 50% 감면돼요"
+          ],
+          "tip": "국립중앙박물관은 상설전시 무료 관람이지만 주차는 유료예요. 경차나 전기차라면 50% 할인을 받을 수 있어요!"
+        },
+        {
+          "id": "mmca",
+          "name": "국립현대미술관",
+          "logo": "mmca",
+          "summary": "기본 2시간 3,000원, 관람객 할인, 10분 이내 무료",
+          "freeCondition": "10분 이내 출차 시 무료, 관람권 제시 시 할인",
+          "details": {
+            "baseFee": "기본 2시간 3,000원 (비관람객)",
+            "viewerFee": "기본 2,000원 (관람권 제시 시), 최초 30분 500원, 추가 30분당 1,000원",
+            "dailyMaxFee": "비관람객 13,000원, 관람객 10,000원",
+            "gracePeriod": "10분 이내 출차 시 무료",
+            "discounts": [
+              { "target": "관람권 소지자", "discount": "기본요금 2,000원으로 할인" },
+              { "target": "장애인/국가유공자", "discount": "50% 감면" },
+              { "target": "경차/하이브리드차", "discount": "50% 감면" }
+            ]
+          },
+          "notes": [
+            "과천관, 서울관, 덕수궁관 별로 주차 조건이 다를 수 있어요",
+            "관람권을 제시하면 할인된 요금이 적용돼요",
+            "서울관은 주차 공간이 매우 제한적이에요",
+            "대중교통 이용을 권장해요"
+          ],
+          "tip": "국립현대미술관은 관람권을 보여주면 주차비가 할인돼요. 10분 이내 출차 시 무료이니 잠깐 들를 때 유용해요!"
+        }
+      ]
+    },
+    {
+      "id": "hospital",
+      "name": "병원/관공서",
+      "icon": "hospital",
+      "items": [
+        {
+          "id": "large-hospital",
+          "name": "대형 병원",
+          "logo": "hospital",
+          "summary": "진료 환자 할인/감면, 병원별 상이",
+          "freeCondition": "당일 진료/검사/입퇴원 시 감면 (영수증 또는 진료카드 제시)",
+          "details": {
+            "hospitals": [
+              {
+                "name": "서울대병원",
+                "baseFee": "비환자 10분당 2,000원",
+                "patientBenefit": "당일 진료/검사/입퇴원 시 주차료 감면 (영수증 또는 진료카드 지참)",
+                "note": "환자 차량만 이용 가능, 비환자 차량 고액 요금"
+              },
+              {
+                "name": "분당서울대병원",
+                "baseFee": "유료",
+                "patientBenefit": "특실환자(지상/지하), 1인실환자(지상) 1일 1대 무료, 입퇴원 당일 자정까지 1대 무료",
+                "note": "입퇴원 당일 무료 혜택 활용 추천"
+              },
+              {
+                "name": "삼성서울병원",
+                "baseFee": "시간당 6,000원",
+                "patientBenefit": "환자차량 등록 시 진료일 자동정산, 정산 후 20분 내 출차 무료",
+                "note": "삼성서울병원 앱/웹에서 모바일 주차비 정산 가능, 1일 최대 30,000원"
+              },
+              {
+                "name": "서울아산병원",
+                "baseFee": "유료 (점포별 확인)",
+                "patientBenefit": "진료 환자 할인 적용",
+                "note": "정확한 요금은 병원 홈페이지 참고"
+              }
+            ],
+            "generalDiscounts": [
+              { "target": "경차", "discount": "50% 할인 (일부 병원)" },
+              { "target": "장애인", "discount": "할인 또는 면제 (병원별 상이)" },
+              { "target": "국가유공자", "discount": "할인 또는 면제 (병원별 상이)" }
+            ]
+          },
+          "notes": [
+            "대형 병원은 주차 요금이 높은 편이에요",
+            "진료 환자는 반드시 영수증 또는 진료카드를 지참하세요",
+            "삼성서울병원은 앱에서 차량 등록 시 자동정산이 가능해요",
+            "서울대병원은 비환자 차량 요금이 매우 비싸요 (10분당 2,000원)",
+            "입퇴원 당일에는 무료 주차 혜택이 있는 병원이 많아요"
+          ],
+          "tip": "대형 병원 방문 시 반드시 진료 영수증이나 진료카드를 챙기세요. 삼성서울병원은 앱에서 차량 등록하면 자동정산이 돼요!"
+        },
+        {
+          "id": "court",
+          "name": "법원/검찰청",
+          "logo": "court",
+          "summary": "민원인 주차 가능, 주차장 협소",
+          "freeCondition": "재판/민원 방문 시 주차 가능 (무료 또는 저렴)",
+          "details": {
+            "generalPolicy": "법원/검찰청은 민원인 주차장을 운영하나, 주차 면수가 매우 제한적",
+            "examples": [
+              { "name": "서울중앙지방법원", "condition": "민원인 주차 약 305대, 항상 부족", "note": "대중교통 권장" },
+              { "name": "수원지방법원", "condition": "민원인 주차 약 147대, 항상 부족", "note": "인근 유료 주차장 이용 권장" },
+              { "name": "대전지방법원", "condition": "민원인 주차 가능", "note": "요일제 시행 가능" }
+            ],
+            "restrictions": [
+              "일부 법원은 요일별 차량 끝 번호제를 시행해요",
+              "경차, 장애인 차량, 긴급자동차는 제한에서 제외돼요"
+            ]
+          },
+          "notes": [
+            "법원/검찰청 주차장은 대부분 무료이지만 면수가 매우 부족해요",
+            "재판 또는 민원 방문 목적이 아닌 경우 이용이 제한될 수 있어요",
+            "일부 법원은 요일별 차량 끝 번호제를 시행해요",
+            "가능하면 대중교통 이용을 강력히 권장해요"
+          ],
+          "tip": "법원/검찰청은 무료 주차가 가능하지만 주차 자리가 매우 부족해요. 재판이나 민원이 있다면 일찍 출발하거나 대중교통을 이용하세요!"
+        }
+      ]
+    },
+    {
+      "id": "etc",
+      "name": "기타",
+      "icon": "star",
+      "items": [
+        {
+          "id": "ikea",
+          "name": "이케아 (IKEA)",
+          "logo": "ikea",
+          "summary": "점포별 상이: 무료~구매 시 최대 5시간 무료",
+          "freeCondition": "점포별 상이 (무료 또는 구매 영수증 제시)",
+          "details": {
+            "branches": [
+              {
+                "name": "고양점",
+                "baseFee": "무료",
+                "freeCondition": "전면 무료",
+                "note": ""
+              },
+              {
+                "name": "기흥점",
+                "baseFee": "무료",
+                "freeCondition": "전면 무료",
+                "note": ""
+              },
+              {
+                "name": "광명점",
+                "baseFee": "10분당 800원",
+                "freeCondition": "1시간 회차 무료, 당일 IKEA 구매 영수증 시 5시간 무료",
+                "maxFreeHours": 5,
+                "note": "1일 최대 5시간까지만 무료"
+              },
+              {
+                "name": "강동점",
+                "baseFee": "10분당 1,000원 (무료 시간 초과 후)",
+                "freeCondition": "IKEA 영수증 제시 시 최대 3시간 무료 (구매 금액 무관)",
+                "maxFreeHours": 3,
+                "note": "반품 영수증 제외, 1일 최대 50,000원"
+              },
+              {
+                "name": "동부산점",
+                "baseFee": "10분당 500원",
+                "freeCondition": "IKEA 구매 영수증으로 4시간 무료, 30분 이내 회차 무료",
+                "maxFreeHours": 4,
+                "note": "2025년 2월 18일부터 적용"
+              }
+            ]
+          },
+          "notes": [
+            "고양점, 기흥점은 전면 무료 주차예요",
+            "광명점은 구매 시 최대 5시간 무료이지만, 기본 요금이 10분당 800원이에요",
+            "강동점은 구매 금액에 상관없이 영수증만 있으면 3시간 무료예요",
+            "매장별 주차 정책이 상당히 다르니 반드시 확인하세요"
+          ],
+          "tip": "이케아 고양점과 기흥점은 전면 무료 주차! 강동점은 아이스크림 하나만 사도 영수증으로 3시간 무료예요."
+        },
+        {
+          "id": "starfield",
+          "name": "스타필드",
+          "logo": "starfield",
+          "summary": "점포별 상이: 무료~6시간 무료",
+          "freeCondition": "점포별 상이 (무료 또는 구매 금액별 추가 무료)",
+          "details": {
+            "branches": [
+              {
+                "name": "하남",
+                "baseFee": "무료",
+                "freeCondition": "전면 무료 (시간 제한 없음)",
+                "capacity": "약 6,200대",
+                "note": "주말 매우 혼잡"
+              },
+              {
+                "name": "수원",
+                "baseFee": "6시간 이후 10분당 500원",
+                "freeCondition": "구매 금액 무관 6시간 무료",
+                "maxFreeHours": 6,
+                "dailyMaxFee": 18000,
+                "note": "1일 최대 18,000원"
+              },
+              {
+                "name": "고양",
+                "baseFee": "10분당 500원 (무료 시간 초과 후)",
+                "freeCondition": "최초 2시간 무료 + 구매 금액별 추가",
+                "tiers": [
+                  { "amount": 0, "amountLabel": "구매 없이", "freeHours": 2 },
+                  { "amount": 30000, "amountLabel": "3만원 이상", "freeHours": 3, "note": "+1시간" },
+                  { "amount": 50000, "amountLabel": "5만원 이상", "freeHours": 4, "note": "+2시간" },
+                  { "amount": 100000, "amountLabel": "10만원 이상", "freeHours": 5, "note": "+3시간" }
+                ],
+                "extraBenefits": [
+                  "영화 관람 시 +2시간",
+                  "식사 3만원 이상 시 +1시간"
+                ],
+                "note": ""
+              },
+              {
+                "name": "코엑스몰",
+                "baseFee": "주간(06~22시) 30분당 1,200원, 야간(22~06시) 30분당 600원",
+                "freeCondition": "구매 금액별 무료 + 20분 회차 무료",
+                "tiers": [
+                  { "amount": 50000, "amountLabel": "5만원 이상", "freeHours": 1 },
+                  { "amount": 100000, "amountLabel": "10만원 이상", "freeHours": 2 },
+                  { "amount": 150000, "amountLabel": "15만원 이상", "freeHours": 3 }
+                ],
+                "gracePeriod": "20분 이내 출차 무료",
+                "note": "스타필드 코엑스몰 구매 영수증에 한함"
+              },
+              {
+                "name": "스타필드마켓 죽전",
+                "baseFee": "유료 (구매 시 할인)",
+                "freeCondition": "구매 금액별 무료",
+                "tiers": [
+                  { "amount": 10000, "amountLabel": "1만원 이상", "freeHours": 2 },
+                  { "amount": 30000, "amountLabel": "3만원 이상", "freeHours": 3 },
+                  { "amount": 50000, "amountLabel": "5만원 이상", "freeHours": 4 },
+                  { "amount": 100000, "amountLabel": "10만원 이상", "freeHours": 5 }
+                ],
+                "note": ""
+              }
+            ]
+          },
+          "notes": [
+            "스타필드 하남은 전면 무료로 6,200대 규모예요",
+            "스타필드 수원은 구매 금액 무관 6시간 무료예요",
+            "스타필드 고양은 기본 2시간 무료 + 구매/영화 관람 시 추가 혜택이에요",
+            "코엑스몰은 도심이라 주차비가 비싼 편이에요"
+          ],
+          "tip": "스타필드 하남은 전면 무료 주차! 수원은 6시간 무료이니 여유롭게 쇼핑할 수 있어요. 주말에는 오전이나 저녁 늦게 방문하세요."
+        }
+      ]
+    }
+  ],
+  "generalTips": [
+    {
+      "id": "tip-ev",
+      "title": "전기차/하이브리드차 할인",
+      "description": "대부분의 공공시설과 일부 민간시설에서 전기차, 하이브리드차, 수소차는 주차비 50% 감면을 받을 수 있어요."
+    },
+    {
+      "id": "tip-small-car",
+      "title": "경차 할인",
+      "description": "경차(1,000cc 미만)는 공공주차장에서 50% 할인이 적용돼요. 공공시설에서도 할인 혜택이 있어요."
+    },
+    {
+      "id": "tip-disabled",
+      "title": "장애인/국가유공자 감면",
+      "description": "장애인 차량 표지를 부착한 차량과 국가유공자 차량은 대부분의 공영주차장과 공공시설에서 50~100% 감면돼요."
+    },
+    {
+      "id": "tip-app-register",
+      "title": "매장 앱에 차량 등록하기",
+      "description": "이마트, 롯데백화점, 현대백화점 등 대형 매장 앱에 차량번호를 등록하면 자동정산이 되고 추가 무료 주차권도 받을 수 있어요."
+    },
+    {
+      "id": "tip-receipt",
+      "title": "영수증 꼭 챙기기",
+      "description": "백화점, 마트에서 무료 주차를 받으려면 당일 구매 영수증이 필요해요. 전자영수증도 인정되는 곳이 많으니 확인하세요."
+    },
+    {
+      "id": "tip-night-weekend",
+      "title": "야간/주말 공공주차장 활용",
+      "description": "주민센터, 구청, 학교 등 공공시설은 저녁 6시 이후와 주말에 무료 개방하는 곳이 많아요."
+    },
+    {
+      "id": "tip-multi-child",
+      "title": "다자녀 가정 혜택",
+      "description": "다자녀 가정(3자녀 이상)은 공영주차장에서 추가 할인 혜택을 받을 수 있어요. 각 지자체별로 확인하세요."
+    },
+    {
+      "id": "tip-pregnant",
+      "title": "임산부 혜택",
+      "description": "임산부는 일부 공영주차장과 공공시설에서 주차비 할인 혜택을 받을 수 있어요."
+    }
+  ]
+}

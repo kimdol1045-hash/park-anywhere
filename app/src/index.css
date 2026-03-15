@@ -1,0 +1,75 @@
+:root {
+  font-family: 'Tossface', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+    'Pretendard', 'Roboto', 'Noto Sans KR', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #191F28;
+  background-color: #FFFFFF;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* TDS adaptive color variables (light theme) */
+  --adaptiveBackground: #FFFFFF;
+  --adaptiveFloatBackground: #FFFFFF;
+  --adaptiveLayeredBackground: #F2F4F6;
+  --adaptiveDimmedBackground: rgba(0, 0, 0, 0.5);
+  --adaptiveHairlineBorder: rgba(0, 0, 0, 0.1);
+  --adaptiveGreyBackground: #F2F4F6;
+  --adaptiveGrey50: #F9FAFB;
+  --adaptiveGrey100: #F2F4F6;
+  --adaptiveGrey200: #E5E8EB;
+  --adaptiveGrey300: #D1D6DB;
+  --adaptiveGrey400: #B0B8C1;
+  --adaptiveGrey500: #8B95A1;
+  --adaptiveGrey600: #6B7684;
+  --adaptiveGrey700: #4E5968;
+  --adaptiveGrey800: #333D4B;
+  --adaptiveGrey900: #191F28;
+  --adaptiveOpacity50: rgba(0, 23, 51, 0.02);
+  --adaptiveOpacity100: rgba(0, 23, 51, 0.04);
+  --adaptiveOpacity200: rgba(0, 23, 51, 0.08);
+  --adaptiveOpacity300: rgba(0, 23, 51, 0.12);
+  --adaptiveOpacity400: rgba(0, 23, 51, 0.2);
+  --adaptiveOpacity500: rgba(0, 23, 51, 0.3);
+  --adaptiveOpacity600: rgba(0, 23, 51, 0.46);
+  --adaptiveOpacity700: rgba(0, 23, 51, 0.58);
+  --adaptiveOpacity800: rgba(0, 23, 51, 0.7);
+  --adaptiveOpacity900: rgba(0, 23, 51, 0.82);
+}
+
+body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, blockquote, dl, dd {
+  margin: 0;
+  padding: 0;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: #FFFFFF;
+  -webkit-touch-callout: none;
+  touch-action: manipulation;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+#root {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+}
+
+/* 스크롤바 숨김 (수평 스크롤 탭용) */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
