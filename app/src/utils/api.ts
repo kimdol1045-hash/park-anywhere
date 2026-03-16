@@ -1,7 +1,49 @@
 import type { ParkingLot } from '../types/parking';
 import { calculateDistance } from './geolocation';
 
-// ── 표준데이터 JSON 원본 레코드 타입 ──
+const API_KEY = import.meta.env.VITE_PARKING_API_KEY as string;
+
+// ── 공공 API 응답 타입 ──
+
+interface ApiResponse {
+  response: {
+    header: { resultCode: string; resultMsg: string };
+    body: {
+      items: ApiItem[];
+      totalCount: number;
+      numOfRows: number;
+      pageNo: number;
+    };
+  };
+}
+
+interface ApiItem {
+  prkplceNo: string;       // 주차장관리번호
+  prkplceNm: string;       // 주차장명
+  prkplceSe: string;       // 주차장구분 (노외/노상/부설)
+  prkplceType: string;     // 주차장유형
+  rdnmadr: string;         // 도로명주소
+  lnmadr: string;          // 지번주소
+  prkcmprt: number;        // 주차구획수
+  feedingSe: string;       // 요금정보 (무료/유료/혼합)
+  basicTime: number;       // 기본시간(분)
+  basicCharge: number;     // 기본요금
+  addUnitTime: number;     // 추가단위시간
+  addUnitCharge: number;   // 추가단위요금
+  dayCmmtktAdjTime: number; // 1일주차권요금
+  operDay: string;         // 운영요일
+  weekdayOperOpenHhmm: string;  // 평일시작
+  weekdayOperColseHhmm: string; // 평일종료
+  satOperOperOpenHhmm: string;  // 토요일시작
+  satOperCloseHhmm: string;     // 토요일종료
+  holidayOperOpenHhmm: string;  // 공휴일시작
+  holidayCloseOpenHhmm: string; // 공휴일종료
+  phoneNumber: string;     // 전화번호
+  latitude: number;        // 위도
+  longitude: number;       // 경도
+}
+
+// ── 정적 데이터 원본 타입 ──
 
 interface RawRecord {
   주차장관리번호: string;
@@ -33,9 +75,11 @@ interface RawData {
   records: RawRecord[];
 }
 
-// ── 파싱된 데이터 캐시 ──
+// ── 캐시 ──
 
 let cachedLots: ParkingLot[] | null = null;
+
+// ── 매핑 함수 ──
 
 function mapFeeType(info: string): ParkingLot['feeType'] {
   if (info === '무료') return '무료';
@@ -51,24 +95,45 @@ function mapParkingType(구분: string, 유형: string): ParkingLot['type'] {
   return '부설';
 }
 
-function buildOperatingHours(r: RawRecord): string {
-  const wOpen = r.평일운영시작시각;
-  const wClose = r.평일운영종료시각;
+function buildOperatingHours(wOpen: string, wClose: string, sOpen: string, sClose: string, hOpen: string, hClose: string): string {
   if (!wOpen || !wClose) return '정보 없음';
-
   if (wOpen === '00:00' && wClose === '23:59') return '24시간';
 
   const parts: string[] = [`평일 ${wOpen}~${wClose}`];
-  if (r.토요일운영시작시각 && r.토요일운영종료시각) {
-    parts.push(`토 ${r.토요일운영시작시각}~${r.토요일운영종료시각}`);
-  }
-  if (r.공휴일운영시작시각 && r.공휴일운영종료시각) {
-    parts.push(`공휴일 ${r.공휴일운영시작시각}~${r.공휴일운영종료시각}`);
-  }
+  if (sOpen && sClose) parts.push(`토 ${sOpen}~${sClose}`);
+  if (hOpen && hClose) parts.push(`공휴일 ${hOpen}~${hClose}`);
   return parts.join(' / ');
 }
 
-function mapRecord(r: RawRecord): ParkingLot | null {
+function mapApiItem(item: ApiItem): ParkingLot | null {
+  const lat = Number(item.latitude);
+  const lng = Number(item.longitude);
+  if (!lat || !lng) return null;
+
+  return {
+    id: item.prkplceNo || `p-${Math.random().toString(36).slice(2)}`,
+    name: item.prkplceNm || '',
+    address: item.rdnmadr || item.lnmadr || '',
+    lat,
+    lng,
+    type: mapParkingType(item.prkplceSe || '', item.prkplceType || ''),
+    feeType: mapFeeType(item.feedingSe || ''),
+    capacity: Number(item.prkcmprt) || 0,
+    baseTime: Number(item.basicTime) || 0,
+    baseFee: Number(item.basicCharge) || 0,
+    additionalTime: Number(item.addUnitTime) || 0,
+    additionalFee: Number(item.addUnitCharge) || 0,
+    dayMaxFee: Number(item.dayCmmtktAdjTime) || 0,
+    operatingHours: buildOperatingHours(
+      item.weekdayOperOpenHhmm || '', item.weekdayOperColseHhmm || '',
+      item.satOperOperOpenHhmm || '', item.satOperCloseHhmm || '',
+      item.holidayOperOpenHhmm || '', item.holidayCloseOpenHhmm || '',
+    ),
+    tel: item.phoneNumber || '',
+  };
+}
+
+function mapRawRecord(r: RawRecord): ParkingLot | null {
   const lat = parseFloat(String(r.위도));
   const lng = parseFloat(String(r.경도));
   if (!lat || !lng) return null;
@@ -87,25 +152,110 @@ function mapRecord(r: RawRecord): ParkingLot | null {
     additionalTime: Number(r.추가단위시간) || 0,
     additionalFee: Number(r.추가단위요금) || 0,
     dayMaxFee: Number(r['1일주차권요금']) || 0,
-    operatingHours: buildOperatingHours(r),
+    operatingHours: buildOperatingHours(
+      r.평일운영시작시각, r.평일운영종료시각,
+      r.토요일운영시작시각, r.토요일운영종료시각,
+      r.공휴일운영시작시각, r.공휴일운영종료시각,
+    ),
     tel: r.전화번호 || '',
   };
 }
 
+// ── 공공 API 호출 ──
+
+async function fetchFromApi(endpoint: string, params: Record<string, string | number>): Promise<ApiItem[]> {
+  const query = new URLSearchParams({
+    serviceKey: API_KEY,
+    type: 'json',
+    numOfRows: String(params.numOfRows ?? 1000),
+    pageNo: String(params.pageNo ?? 1),
+    ...Object.fromEntries(
+      Object.entries(params).map(([k, v]) => [k, String(v)])
+    ),
+  });
+
+  const res = await fetch(`/api/parking/${endpoint}?${query}`);
+  if (!res.ok) throw new Error(`API 호출 실패: ${res.status}`);
+
+  const data: ApiResponse = await res.json();
+  if (data.response?.header?.resultCode !== '00') {
+    throw new Error(data.response?.header?.resultMsg || 'API 오류');
+  }
+
+  return data.response?.body?.items ?? [];
+}
+
+// ── 데이터 로드 (API 우선, 정적 JSON fallback) ──
+
 export async function loadParkingData(): Promise<ParkingLot[]> {
   if (cachedLots) return cachedLots;
 
+  // 1. 공공 API 시도
+  if (API_KEY) {
+    try {
+      const allItems: ApiItem[] = [];
+      const firstPage = await fetchFromApi('PrkSttusInfo', { numOfRows: 1000, pageNo: 1 });
+      allItems.push(...firstPage);
+
+      // 총 건수가 1000 이상이면 추가 페이지 로드 (최대 10페이지)
+      if (firstPage.length >= 1000) {
+        const pages = Array.from({ length: 9 }, (_, i) => i + 2);
+        const results = await Promise.allSettled(
+          pages.map(p => fetchFromApi('PrkSttusInfo', { numOfRows: 1000, pageNo: p }))
+        );
+        for (const result of results) {
+          if (result.status === 'fulfilled' && result.value.length > 0) {
+            allItems.push(...result.value);
+          }
+        }
+      }
+
+      const lots = allItems
+        .map(mapApiItem)
+        .filter((lot): lot is ParkingLot => lot !== null);
+
+      if (lots.length > 0) {
+        cachedLots = lots;
+        return cachedLots;
+      }
+    } catch {
+      // API 실패 → 정적 JSON fallback
+    }
+  }
+
+  // 2. 정적 JSON fallback
   const res = await fetch('/parking-data.json');
-  if (!res.ok) throw new Error('주차장 데이터 로드 실패');
+  if (!res.ok) throw new Error('주차장 데이터를 불러오지 못했어요');
 
   const data: RawData = await res.json();
-  const records = data.records ?? [];
-
-  cachedLots = records
-    .map(mapRecord)
+  cachedLots = (data.records ?? [])
+    .map(mapRawRecord)
     .filter((lot): lot is ParkingLot => lot !== null);
 
   return cachedLots;
+}
+
+// ── 실시간 주차 정보 ──
+
+export async function fetchRealtimeInfo(parkingId: string): Promise<{ currentCount: number } | null> {
+  if (!API_KEY) return null;
+
+  try {
+    const items = await fetchFromApi('PrkRealtimeInfo', {
+      numOfRows: 1,
+      pageNo: 1,
+      prkplceNo: parkingId,
+    });
+    if (items.length > 0) {
+      const item = items[0] as ApiItem & { pkfc?: number; nowPrkVhclCnt?: number };
+      return {
+        currentCount: Number(item.nowPrkVhclCnt) || 0,
+      };
+    }
+  } catch {
+    // 실시간 정보 실패는 무시
+  }
+  return null;
 }
 
 // ── 공개 API ──
@@ -113,7 +263,6 @@ export async function loadParkingData(): Promise<ParkingLot[]> {
 export async function fetchParkingLots(lat: number, lng: number): Promise<ParkingLot[]> {
   const allLots = await loadParkingData();
 
-  // 거리 계산
   const withDistance = allLots.map(lot => ({
     ...lot,
     distance: calculateDistance(lat, lng, lot.lat, lot.lng),
@@ -130,7 +279,6 @@ export async function fetchParkingLots(lat: number, lng: number): Promise<Parkin
     }
   }
 
-  // fallback: 가장 가까운 150개
   return withDistance
     .sort((a, b) => a.distance - b.distance)
     .slice(0, 150);

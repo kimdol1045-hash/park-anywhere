@@ -3,7 +3,15 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  server: {},
+  server: {
+    proxy: {
+      '/api/parking': {
+        target: 'https://apis.data.go.kr/B553881/Parking',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/parking/, ''),
+      },
+    },
+  },
   build: {
     chunkSizeWarningLimit: 500,
     rollupOptions: {
