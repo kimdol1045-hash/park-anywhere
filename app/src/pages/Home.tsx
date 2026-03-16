@@ -1,11 +1,11 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useMemo } from 'react';
 import { flushSync } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@toss/tds-mobile';
 import { MapPin, Search, Heart, ChevronRight, ArrowLeft } from 'lucide-react';
 import { useGeolocation } from '../hooks/useGeolocation';
 import { useReverseGeocode } from '../hooks/useReverseGeocode';
-import { useParkingLots } from '../hooks/useParkingLots';
+import { useParkingLots, useRealtimeBatch } from '../hooks/useParkingLots';
 import { storage } from '../utils/storage';
 import ParkingRow from '../components/ParkingRow';
 import type { FilterType, SortType, ParkingLot } from '../types/parking';
@@ -63,6 +63,10 @@ function Home() {
 
   // 컴포넌트 외부 순수함수로 계산 (closure 문제 완전 배제)
   const displayLots = filterAndSort(lots, filter, sort, showFavorites);
+
+  // 실시간 잔여석 일괄 조회
+  const lotIds = useMemo(() => displayLots.map(l => l.id), [displayLots]);
+  const { data: realtimeMap } = useRealtimeBatch(lotIds);
 
   const handleFilterChange = useCallback((f: FilterType) => {
     renderKeyRef.current += 1;
@@ -133,7 +137,7 @@ function Home() {
             </div>
             <div>
               {displayLots.map(lot => (
-                <ParkingRow key={lot.id} lot={lot} />
+                <ParkingRow key={lot.id} lot={lot} realtime={realtimeMap?.get(lot.id)} />
               ))}
             </div>
           </>
@@ -370,7 +374,7 @@ function Home() {
           </div>
         ) : (
           displayLots.map(lot => (
-            <ParkingRow key={lot.id} lot={lot} />
+            <ParkingRow key={lot.id} lot={lot} realtime={realtimeMap?.get(lot.id)} />
           ))
         )}
       </div>

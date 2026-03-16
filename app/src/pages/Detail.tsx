@@ -6,10 +6,23 @@ import {
   MapPin, Clock, Banknote, Layers, Phone, PhoneCall, Building2, Copy, Navigation,
 } from 'lucide-react';
 import { useGeolocation } from '../hooks/useGeolocation';
-import { useParkingLotById } from '../hooks/useParkingLots';
+import { useParkingLotById, useRealtimeInfo } from '../hooks/useParkingLots';
 import { formatFee } from '../utils/api';
 import { storage } from '../utils/storage';
 import NavigationActionSheet from '../components/NavigationActionSheet';
+
+function formatUpdatedAt(timeStr: string): string {
+  if (!timeStr) return '';
+  try {
+    const updated = new Date(timeStr);
+    const diff = Math.floor((Date.now() - updated.getTime()) / 60000);
+    if (diff < 1) return '방금 갱신';
+    if (diff < 60) return `${diff}분 전 갱신`;
+    return `${Math.floor(diff / 60)}시간 전 갱신`;
+  } catch {
+    return '';
+  }
+}
 
 function Detail() {
   const { parkingId } = useParams<{ parkingId: string }>();
@@ -20,6 +33,7 @@ function Detail() {
     position?.lat ?? null,
     position?.lng ?? null,
   );
+  const { data: realtime } = useRealtimeInfo(parkingId);
   const [isFavorite, setIsFavorite] = useState(false);
   const [navOpen, setNavOpen] = useState(false);
 
@@ -174,22 +188,43 @@ function Detail() {
         }}>
           <div>
             <p style={{ fontSize: 13, fontWeight: 500, color: '#8B95A1', marginBottom: 4 }}>
-              총 주차면수
+              {realtime && realtime.capacity > 0 ? '실시간 잔여석' : '총 주차면수'}
             </p>
             <div style={{ display: 'flex', alignItems: 'flex-end', gap: 4 }}>
               <span style={{ fontSize: 36, fontWeight: 700, color: '#3182F6' }}>
-                {lot.capacity > 0 ? lot.capacity : '-'}
+                {realtime && realtime.capacity > 0
+                  ? realtime.available
+                  : lot.capacity > 0 ? lot.capacity : '-'}
               </span>
               <span style={{ fontSize: 16, fontWeight: 500, color: '#8B95A1', paddingBottom: 4 }}>
-                면
+                {realtime && realtime.capacity > 0
+                  ? `/ ${realtime.capacity}석`
+                  : '면'}
               </span>
             </div>
           </div>
-          {lot.capacity > 0 && (
+          {realtime && realtime.capacity > 0 ? (
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4 }}>
+              {realtime.updatedAt && (
+                <span style={{ fontSize: 11, color: '#B0B8C1' }}>
+                  {formatUpdatedAt(realtime.updatedAt)}
+                </span>
+              )}
+              <div style={{ width: 80, height: 8, borderRadius: 4, backgroundColor: '#E5E8EB', overflow: 'hidden' }}>
+                <div style={{
+                  width: `${Math.round((realtime.available / realtime.capacity) * 100)}%`,
+                  height: '100%',
+                  borderRadius: 4,
+                  backgroundColor: realtime.available / realtime.capacity > 0.3 ? '#1B9C3E'
+                    : realtime.available / realtime.capacity > 0.1 ? '#F59F00' : '#E53935',
+                }} />
+              </div>
+            </div>
+          ) : lot.capacity > 0 ? (
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4 }}>
               <span style={{ fontSize: 12, color: '#8B95A1' }}>총 수용 대수</span>
             </div>
-          )}
+          ) : null}
         </div>
       </div>
 

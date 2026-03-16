@@ -237,7 +237,15 @@ export async function loadParkingData(): Promise<ParkingLot[]> {
 
 // ── 실시간 주차 정보 ──
 
-export async function fetchRealtimeInfo(parkingId: string): Promise<{ currentCount: number } | null> {
+export interface RealtimeInfo {
+  parkingId: string;
+  currentCount: number; // 현재 주차 차량수
+  capacity: number;     // 총 주차면수
+  available: number;    // 잔여석
+  updatedAt: string;    // 갱신 시각
+}
+
+export async function fetchRealtimeInfo(parkingId: string): Promise<RealtimeInfo | null> {
   if (!API_KEY) return null;
 
   try {
@@ -247,15 +255,44 @@ export async function fetchRealtimeInfo(parkingId: string): Promise<{ currentCou
       prkplceNo: parkingId,
     });
     if (items.length > 0) {
-      const item = items[0] as ApiItem & { pkfc?: number; nowPrkVhclCnt?: number };
-      return {
-        currentCount: Number(item.nowPrkVhclCnt) || 0,
-      };
+      const item = items[0] as Record<string, unknown>;
+      const capacity = Number(item.pkfc ?? item.prkcmprt ?? 0);
+      const currentCount = Number(item.nowPrkVhclCnt ?? 0);
+      const available = Math.max(0, capacity - currentCount);
+      const syncTime = String(item.syncTime ?? item.lsttRfrhDt ?? '');
+
+      return { parkingId, currentCount, capacity, available, updatedAt: syncTime };
     }
   } catch {
     // 실시간 정보 실패는 무시
   }
   return null;
+}
+
+export async function fetchRealtimeBatch(parkingIds: string[]): Promise<Map<string, RealtimeInfo>> {
+  const map = new Map<string, RealtimeInfo>();
+  if (!API_KEY || parkingIds.length === 0) return map;
+
+  try {
+    const items = await fetchFromApi('PrkRealtimeInfo', { numOfRows: 1000, pageNo: 1 });
+    const idSet = new Set(parkingIds);
+
+    for (const raw of items) {
+      const item = raw as Record<string, unknown>;
+      const id = String(item.prkplceNo ?? '');
+      if (!id || !idSet.has(id)) continue;
+
+      const capacity = Number(item.pkfc ?? item.prkcmprt ?? 0);
+      const currentCount = Number(item.nowPrkVhclCnt ?? 0);
+      const available = Math.max(0, capacity - currentCount);
+      const syncTime = String(item.syncTime ?? item.lsttRfrhDt ?? '');
+
+      map.set(id, { parkingId: id, currentCount, capacity, available, updatedAt: syncTime });
+    }
+  } catch {
+    // 일괄 조회 실패는 무시
+  }
+  return map;
 }
 
 // ── 공개 API ──
